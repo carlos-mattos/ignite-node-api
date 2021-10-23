@@ -19,4 +19,8 @@ export default class CategoriesRepository {
 
     this.categories.push(newCategory);
   }
+
+  list(): Category[] {
+    return this.categories;
+  }
 }
