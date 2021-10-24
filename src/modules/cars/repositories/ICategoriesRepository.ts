@@ -1,5 +1,5 @@
-import { ICreateCategoryDTO } from "../dtos/CategoryDTO";
-import Category from "../modules/cars/model/Category";
+import { ICreateCategoryDTO } from "../../../dtos/CategoryDTO";
+import Category from "../model/Category";
 
 export default interface ICategoriesRepository {
   findByName(name: string): Category;
