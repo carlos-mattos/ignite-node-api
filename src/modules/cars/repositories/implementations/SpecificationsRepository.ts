@@ -1,6 +1,6 @@
-import { ISpecificationDTO } from "../../../dtos/SpecificationDTO";
-import Specification from "../model/Specification";
-import ISpecificationsRepository from "./ISpecificationsRepository";
+import { ISpecificationDTO } from "../../../../dtos/SpecificationDTO";
+import Specification from "../../model/Specification";
+import ISpecificationsRepository from "../ISpecificationsRepository";
 
 export default class SpecificationsRepository
   implements ISpecificationsRepository
