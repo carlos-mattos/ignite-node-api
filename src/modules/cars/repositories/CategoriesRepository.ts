@@ -1,4 +1,4 @@
-import Category from "../model/Category";
+import Category from "../modules/cars/model/Category";
 import { ICreateCategoryDTO } from "../dtos/CategoryDTO";
 import ICategoriesRepository from "./ICategoriesRepository";
 
