@@ -10,14 +10,13 @@ export default class CreateUserUseCase {
   ) {}
 
   async execute(data: ICreateUserDTO): Promise<void> {
-    const { name, password, driver_license, email, username } = data;
+    const { name, password, driver_license, email } = data;
 
     await this.usersRepository.create({
       name,
       password,
       driver_license,
       email,
-      username,
     });
   }
 }

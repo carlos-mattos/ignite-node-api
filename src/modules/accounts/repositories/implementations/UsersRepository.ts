@@ -11,11 +11,10 @@ export default class UsersRepository implements IUsersRepository {
   }
 
   async create(data: ICreateUserDTO): Promise<void> {
-    const { name, username, email, driver_license, password } = data;
+    const { name, email, driver_license, password } = data;
 
     const user = this.repository.create({
       name,
-      username,
       email,
       driver_license,
       password,
