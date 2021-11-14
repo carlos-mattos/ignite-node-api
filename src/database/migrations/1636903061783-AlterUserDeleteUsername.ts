@@ -10,7 +10,7 @@ export class AlterUserDeleteUsername1636903061783
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.addColumn(
       "users",
-      new TableColumn({ name: "username", type: "varchar" })
+      new TableColumn({ name: "username", type: "varchar", isNullable: true })
     );
   }
 }
