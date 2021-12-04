@@ -7,7 +7,7 @@ interface IPayload {
   sub: string;
 }
 
-export default function ensureAuthenticated(
+export default async function ensureAuthenticated(
   req: Request,
   res: Response,
   next: NextFunction
@@ -27,11 +27,15 @@ export default function ensureAuthenticated(
     ) as IPayload;
 
     const usersRepository = new UsersRepository();
-    const user = usersRepository.findById(user_id);
+    const user = await usersRepository.findById(user_id);
 
     if (!user) {
       throw new AppError("Não encontramos o usuário", 401);
     }
+
+    req.user = {
+      id: user_id,
+    };
 
     next();
   } catch (error) {
