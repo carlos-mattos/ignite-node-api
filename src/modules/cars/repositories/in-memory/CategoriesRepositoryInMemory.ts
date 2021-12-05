@@ -1,6 +1,6 @@
-import { ICreateCategoryDTO } from "../../../../dtos/ICreateCategoryDTO";
-import Category from "../../entities/Category";
-import ICategoriesRepository from "../ICategoriesRepository";
+import { ICreateCategoryDTO } from "@dtos/ICreateCategoryDTO";
+import Category from "@modules/cars/infra/typeorm/entities/Category";
+import ICategoriesRepository from "@modules/cars/repositories/ICategoriesRepository";
 
 export default class CategoriesRepositoryInMemory
   implements ICategoriesRepository

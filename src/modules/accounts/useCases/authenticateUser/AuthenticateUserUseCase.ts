@@ -1,8 +1,8 @@
 import { inject, injectable } from "tsyringe";
-import IUsersRepository from "../../repositories/IUsersRepository";
 import { compare } from "bcrypt";
 import { sign } from "jsonwebtoken";
-import AppError from "../../../../errors/AppError";
+import AppError from "@shared/errors/AppError";
+import IUsersRepository from "@modules/accounts/repositories/IUsersRepository";
 
 interface IRequest {
   email: string;
@@ -16,10 +16,6 @@ interface IResponse {
   };
   token: string;
 }
-
-// 1- usuario existe
-// 2- senha correta
-// 3- gerar o jwt
 
 @injectable()
 export default class AuthenticateUserUseCase {
