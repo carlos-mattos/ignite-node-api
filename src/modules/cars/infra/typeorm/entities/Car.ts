@@ -15,6 +15,8 @@ export default class Car {
 
   brand: string;
 
+  available: boolean;
+
   category_id: string;
 
   created_at: Date;
@@ -22,6 +24,8 @@ export default class Car {
   constructor() {
     if (!this.id) {
       this.id = uuid();
+      this.available = true;
+      this.created_at = new Date();
     }
   }
 }

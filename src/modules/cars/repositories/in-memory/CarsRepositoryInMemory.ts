@@ -5,7 +5,7 @@ import ICarsRepository from "../ICarsRepository";
 export default class CarsRepositoryInMemory implements ICarsRepository {
   cars: Car[] = [];
 
-  async create(data: ICreateCarDTO): Promise<void> {
+  async create(data: ICreateCarDTO): Promise<Car> {
     const {
       brand,
       name,
@@ -29,5 +29,13 @@ export default class CarsRepositoryInMemory implements ICarsRepository {
     });
 
     this.cars.push(car);
+
+    return car
+  }
+
+  async findByLicensePlate(licensePlate: string): Promise<Car | undefined> {
+    const car = this.cars.find((car) => car.license_plate == licensePlate);
+
+    return car;
   }
 }
