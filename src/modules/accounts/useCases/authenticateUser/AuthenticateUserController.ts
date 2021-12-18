@@ -6,6 +6,8 @@ export default class AuthenticateUserController {
   async handle(req: Request, res: Response): Promise<Response> {
     const { password, email } = req.body;
 
+    console.log("aqui");
+    
     const authenticateUserUseCase = container.resolve(AuthenticateUserUseCase);
 
     const token = await authenticateUserUseCase.execute({ password, email });
