@@ -1,5 +1,6 @@
 import CreateCarController from "@modules/cars/useCases/createCar/CreateCarController";
-import ListCarsController from '@modules/cars/useCases/listCars/ListCarsController';
+import CreateCarSpecificationController from "@modules/cars/useCases/createCarSpecification/CreateCarSpecificationController";
+import ListCarsController from "@modules/cars/useCases/listCars/ListCarsController";
 import { Router } from "express";
 import ensureAdmin from "../middlewares/ensureAdmin";
 import ensureAuthenticated from "../middlewares/ensureAuthenticated";
@@ -8,6 +9,7 @@ const carsRoutes = Router();
 
 const createCarController = new CreateCarController();
 const listCarsController = new ListCarsController();
+const createCarSpecificationController = new CreateCarSpecificationController();
 
 carsRoutes.post(
   "/",
@@ -17,5 +19,7 @@ carsRoutes.post(
 );
 
 carsRoutes.get("/available", listCarsController.handle);
+
+carsRoutes.post("/specifications/:id", ensureAuthenticated, ensureAdmin, createCarSpecificationController.handle);
 
 export default carsRoutes;

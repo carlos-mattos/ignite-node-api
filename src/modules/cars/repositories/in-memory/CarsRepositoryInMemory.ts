@@ -14,6 +14,8 @@ export default class CarsRepositoryInMemory implements ICarsRepository {
       description,
       fine_amount,
       license_plate,
+      specifications,
+      id
     } = data;
 
     const car = new Car();
@@ -26,6 +28,8 @@ export default class CarsRepositoryInMemory implements ICarsRepository {
       description,
       fine_amount,
       license_plate,
+      specifications,
+      id
     });
 
     this.cars.push(car);
@@ -51,5 +55,9 @@ export default class CarsRepositoryInMemory implements ICarsRepository {
         (category_id && car.category_id === category_id) ||
         (name && car.name === name)
     );
+  }
+
+  async findById(id: string): Promise<Car> {
+    return this.cars.find((car) => car.id == id);
   }
 }
