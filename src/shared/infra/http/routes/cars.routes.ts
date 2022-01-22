@@ -1,7 +1,7 @@
 import CreateCarController from "@modules/cars/useCases/createCar/CreateCarController";
 import CreateCarSpecificationController from "@modules/cars/useCases/createCarSpecification/CreateCarSpecificationController";
 import ListCarsController from "@modules/cars/useCases/listCars/ListCarsController";
-import UploadCarImagesController from "@modules/cars/useCases/UploadCarImage/UploadCarImagesController";
+import UploadCarImagesController from "@modules/cars/useCases/uploadCarImage/UploadCarImagesController";
 import { Router } from "express";
 import ensureAdmin from "../middlewares/ensureAdmin";
 import ensureAuthenticated from "../middlewares/ensureAuthenticated";
