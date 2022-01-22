@@ -1,3 +1,4 @@
+import Rental from "@modules/rentals/infra/typeorm/entities/Rental";
 import IRentalsRepository from "@modules/rentals/repositories/IRentalsRepository";
 import AppError from "@shared/errors/AppError";
 
@@ -14,12 +15,12 @@ export default class CreateRentalUseCase {
     car_id,
     user_id,
     expect_return_date,
-  }: IRequest): Promise<void> {
-    const carAvailable = await this.rentalRepository.findOpenRentalByCarId(
+  }: IRequest): Promise<Rental> {
+    const carUnavailable = await this.rentalRepository.findOpenRentalByCarId(
       car_id
     );
 
-    if (!carAvailable) {
+    if (carUnavailable) {
       throw new AppError("Carro não disponível para locação");
     }
 
@@ -30,5 +31,13 @@ export default class CreateRentalUseCase {
     if (rentalOpenToUser) {
       throw new AppError("Usuário já possui aluguel em andamento");
     }
+
+    const rental = await this.rentalRepository.create({
+      car_id,
+      user_id,
+      expect_return_date,
+    });
+
+    return rental;
   }
 }
