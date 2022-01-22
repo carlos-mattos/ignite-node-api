@@ -1,10 +1,7 @@
 import Rental from "@modules/rentals/infra/typeorm/entities/Rental";
 import IRentalsRepository from "@modules/rentals/repositories/IRentalsRepository";
+import IDateProvider from "@shared/container/providers/DateProvider/IDateProvider";
 import AppError from "@shared/errors/AppError";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-
-dayjs.extend(utc);
 
 interface IRequest {
   user_id: string;
@@ -13,7 +10,10 @@ interface IRequest {
 }
 
 export default class CreateRentalUseCase {
-  constructor(private rentalRepository: IRentalsRepository) {}
+  constructor(
+    private rentalRepository: IRentalsRepository,
+    private dateProvider: IDateProvider
+  ) {}
 
   async execute({
     car_id,
@@ -38,14 +38,9 @@ export default class CreateRentalUseCase {
       throw new AppError("Usuário já possui aluguel em andamento");
     }
 
-    const expectReturnDateFormatted = dayjs(expect_return_date)
-      .utc()
-      .local()
-      .format();
-    const dateNowFormatted = dayjs().utc().local().format();
-    const compare = dayjs(expectReturnDateFormatted).diff(
-      dateNowFormatted,
-      "hours"
+    const compare = this.dateProvider.compareDiffInHours(
+      this.dateProvider.dateNow(),
+      expect_return_date
     );
 
     if (compare < minHourToRent) {
