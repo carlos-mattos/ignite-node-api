@@ -25,7 +25,7 @@ describe("Create Category Controller", () => {
     await connection.close();
   });
 
-  it("should create a new category", async () => {
+  it("should list all categories", async () => {
     const {
       body: { token },
     } = await request(app).post("/sessions").send({
@@ -33,7 +33,7 @@ describe("Create Category Controller", () => {
       password: "123456",
     });
 
-    const response = await request(app)
+    await request(app)
       .post("/categories")
       .send({
         name: "categoria supertest",
@@ -43,27 +43,14 @@ describe("Create Category Controller", () => {
         Authorization: `Bearer ${token}`,
       });
 
-    expect(response.status).toBe(201);
-  });
-
-  it("should not create a new category when already exists another with same name", async () => {
-    const {
-      body: { token },
-    } = await request(app).post("/sessions").send({
-      email: "admin@admin.com.br",
-      password: "123456",
-    });
-
     const response = await request(app)
-      .post("/categories")
-      .send({
-        name: "categoria supertest",
-        description: "descrição da categoria",
-      })
+      .get("/categories")
       .set({
         Authorization: `Bearer ${token}`,
       });
 
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveLength(1);
+    expect(response.body[0]).toHaveProperty("id");
   });
 });
