@@ -65,12 +65,9 @@ export default class CarsRepositoryInMemory implements ICarsRepository {
   async updateAvailable(id: string, available: boolean): Promise<void> {
     const car = this.cars.find((car) => car.id === id);
 
-    console.log("UPDATEAVAILABLE car", car, id, available);
-
-    if (!car) {
-      throw new AppError("O carro não foi encontrado");
+    if (car) {
+      car.available = available;
     }
 
-    car.available = available;
   }
 }
