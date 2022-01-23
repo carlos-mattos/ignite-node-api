@@ -1,5 +1,6 @@
 import { ICreateCarDTO } from "@dtos/ICreateCarDTO";
 import Car from "@modules/cars/infra/typeorm/entities/Car";
+import AppError from "@shared/errors/AppError";
 import ICarsRepository from "../ICarsRepository";
 
 export default class CarsRepositoryInMemory implements ICarsRepository {
@@ -15,7 +16,7 @@ export default class CarsRepositoryInMemory implements ICarsRepository {
       fine_amount,
       license_plate,
       specifications,
-      id
+      id,
     } = data;
 
     const car = new Car();
@@ -29,7 +30,7 @@ export default class CarsRepositoryInMemory implements ICarsRepository {
       fine_amount,
       license_plate,
       specifications,
-      id
+      id,
     });
 
     this.cars.push(car);
@@ -59,5 +60,17 @@ export default class CarsRepositoryInMemory implements ICarsRepository {
 
   async findById(id: string): Promise<Car> {
     return this.cars.find((car) => car.id == id);
+  }
+
+  async updateAvailable(id: string, available: boolean): Promise<void> {
+    const car = this.cars.find((car) => car.id === id);
+
+    console.log("UPDATEAVAILABLE car", car, id, available);
+
+    if (!car) {
+      throw new AppError("O carro não foi encontrado");
+    }
+
+    car.available = available;
   }
 }
