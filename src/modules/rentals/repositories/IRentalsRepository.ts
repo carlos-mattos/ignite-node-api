@@ -6,4 +6,5 @@ export default interface IRentalsRepository {
   findOpenRentalByUserId(user_id: string): Promise<Rental | undefined>;
   create(data: ICreateRentalDTO): Promise<Rental>;
   findById(id: string): Promise<Rental | undefined>;
+  findRentalsByUser(user_id: string): Promise<Rental[]>;
 }
