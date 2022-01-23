@@ -19,4 +19,11 @@ export default class DayjsDateProvider implements IDateProvider {
   add24Hours(): Date {
     return dayjs().add(24, "hours").toDate();
   }
+
+  compareDiffInDays(dateA: Date, dateB: Date): number {
+    const dateAFormatted = dayjs(dateA).utc().local().format();
+    const dateBFormatted = dayjs(dateB).utc().local().format();
+
+    return dayjs(dateBFormatted).diff(dateAFormatted, "days");
+  }
 }
