@@ -3,6 +3,9 @@ import { compare } from "bcrypt";
 import { sign } from "jsonwebtoken";
 import AppError from "@shared/errors/AppError";
 import IUsersRepository from "@modules/accounts/repositories/IUsersRepository";
+import IUsersTokensRepository from "@modules/accounts/repositories/IUsersTokensRepository";
+import auth from "@config/auth";
+import IDateProvider from "@shared/container/providers/DateProvider/IDateProvider";
 
 interface IRequest {
   email: string;
@@ -15,13 +18,18 @@ interface IResponse {
     email: string;
   };
   token: string;
+  refresh_token: string;
 }
 
 @injectable()
 export default class AuthenticateUserUseCase {
   constructor(
     @inject("UsersRepository")
-    private userRepository: IUsersRepository
+    private userRepository: IUsersRepository,
+    @inject("UsersTokensRepository")
+    private usersTokensRepository: IUsersTokensRepository,
+    @inject("DayjsDateProvider")
+    private dateProvider: IDateProvider
   ) {}
 
   async execute({ email, password }: IRequest): Promise<IResponse> {
@@ -37,9 +45,20 @@ export default class AuthenticateUserUseCase {
       throw new AppError("Email ou senha incorretos");
     }
 
-    const token = sign({}, "4568902c4fe98c69c83f4e88a428964f", {
+    const refreshToken = sign({ email }, auth.secret_refresh_token, {
       subject: user.id,
-      expiresIn: "1d",
+      expiresIn: auth.expiresInRefreshToken,
+    });
+
+    await this.usersTokensRepository.create({
+      expires_date: this.dateProvider.addDays(30),
+      user_id: user.id,
+      refresh_token: refreshToken,
+    });
+
+    const token = sign({}, auth.secret_token, {
+      subject: user.id,
+      expiresIn: auth.expiresInToken,
     });
 
     return {
@@ -48,6 +67,7 @@ export default class AuthenticateUserUseCase {
         email: user.email,
       },
       token,
+      refresh_token: refreshToken,
     };
   }
 }

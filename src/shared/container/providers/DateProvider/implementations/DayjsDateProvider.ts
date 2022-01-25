@@ -26,4 +26,8 @@ export default class DayjsDateProvider implements IDateProvider {
 
     return dayjs(dateBFormatted).diff(dateAFormatted, "days");
   }
+
+  addDays(days: number): Date {
+    return dayjs().add(days, "days").toDate();
+  }
 }

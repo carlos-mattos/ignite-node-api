@@ -3,4 +3,5 @@ export default interface IDateProvider {
   dateNow(): Date;
   add24Hours(): Date;
   compareDiffInDays(dateA: Date, dateB: Date): number;
+  addDays(days: number): Date;
 }
