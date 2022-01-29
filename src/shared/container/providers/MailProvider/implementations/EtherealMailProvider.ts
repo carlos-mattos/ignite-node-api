@@ -36,8 +36,6 @@ export default class EtherealMailProvider implements IMailProvider {
   ): Promise<void> {
     const templateFileContent = fs.readFileSync(path).toString("utf8");
 
-    console.log(templateFileContent);
-
     const compiledTemplate = handlebars.compile(templateFileContent);
 
     const templateHTML = compiledTemplate(variables);

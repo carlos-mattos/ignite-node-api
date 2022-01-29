@@ -52,7 +52,5 @@ export default class ImportCategoryUseCase {
         await this.categoriesRepository.create({ name, description });
       }
     });
-
-    console.log(categories);
   }
 }
